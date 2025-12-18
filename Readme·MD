@@ -1,0 +1,125 @@
+# 🔐 AI-Driven Smart Contract Security Analyzer
+
+AI-powered tool for detecting reentrancy vulnerabilities in Solidity smart contracts.
+
+## 🎯 About
+
+This application uses machine learning to analyze Solidity smart contracts and detect potential reentrancy vulnerabilities - one of the most critical security issues in blockchain development.
+
+### Features
+- ✅ Real-time smart contract analysis
+- ✅ Reentrancy vulnerability detection
+- ✅ Risk scoring and assessment
+- ✅ Detailed security recommendations
+- ✅ Pattern recognition for vulnerable code
+- ✅ Interactive web interface
+
+## 🚀 Live Demo
+
+**Try it now:** [Your Hugging Face Space URL]
+
+## 💻 Local Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/YOUR-USERNAME/smart-contract-analyzer.git
+cd smart-contract-analyzer
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+python app.py
+```
+
+Visit `http://localhost:7860` in your browser.
+
+## 📊 How It Works
+
+The analyzer examines your smart contract for:
+
+1. **External Call Patterns** - `.call()`, `.transfer()`, `.send()`
+2. **State Management** - Checks-Effects-Interactions pattern
+3. **Security Mechanisms** - `nonReentrant` modifiers, mutex locks
+4. **Vulnerable Patterns** - State changes after external calls
+5. **Access Controls** - `require()`, `assert()`, modifiers
+
+## 🔍 Usage
+
+1. Paste your Solidity contract into the code editor
+2. Click "Analyze Contract"
+3. Review the risk assessment and recommendations
+4. Use sample contracts to learn about safe vs. vulnerable patterns
+
+## ⚠️ What is Reentrancy?
+
+Reentrancy occurs when a contract makes an external call before updating its state, allowing malicious contracts to recursively call back and potentially drain funds. This vulnerability was exploited in the infamous 2016 DAO hack.
+
+### Vulnerable Pattern:
+```solidity
+function withdraw(uint _amount) public {
+    require(balances[msg.sender] >= _amount);
+    msg.sender.call{value: _amount}("");  // External call FIRST
+    balances[msg.sender] -= _amount;       // State change AFTER ⚠️
+}
+```
+
+### Safe Pattern:
+```solidity
+function withdraw(uint _amount) public nonReentrant {
+    require(balances[msg.sender] >= _amount);
+    balances[msg.sender] -= _amount;       // State change FIRST ✓
+    msg.sender.call{value: _amount}("");  // External call AFTER
+}
+```
+
+## 🛠️ Technical Details
+
+- **Framework:** Gradio
+- **ML Model:** Random Forest Classifier
+- **Feature Extraction:** 38+ security-relevant features
+- **Text Analysis:** TF-IDF on preprocessed Solidity code
+- **Dataset:** Trained on reentrancy and safe contract samples
+
+## 📁 Project Structure
+
+```
+smart-contract-analyzer/
+├── app.py              # Main Gradio application
+├── requirements.txt    # Python dependencies
+├── README.md          # This file
+└── model/             # (Optional) Pre-trained model files
+```
+
+## 🎓 Research
+
+This project is part of AI security research at Morgan State University, focusing on automated vulnerability detection in blockchain smart contracts.
+
+**Developed by:** Opeyemi  
+**Affiliation:** Morgan State University  
+**Research Area:** AI-based Smart Contract Security
+
+## 📄 License
+
+MIT License - Feel free to use and modify for your projects
+
+## 🤝 Contributing
+
+Contributions welcome! Please feel free to submit a Pull Request.
+
+## 📧 Contact
+
+For questions or collaboration:
+- **GitHub:** [Your GitHub Profile]
+- **LinkedIn:** [Your LinkedIn]
+- **Email:** [Your Email]
+
+## 🙏 Acknowledgments
+
+- OpenZeppelin for security patterns
+- Ethereum community for vulnerability research
+- Morgan State University for research support
+
+---
+
+⭐ If this tool helps secure your smart contracts, please star the repository!
